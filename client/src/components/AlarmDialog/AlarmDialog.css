@@ -1,0 +1,11 @@
+.box {
+    display: inline-block;
+    position: fixed;
+    top: 20vh;
+    min-width: 18rem;
+    max-width: 30vw;
+}
+
+.card-text {
+    height: 25vh;
+}
