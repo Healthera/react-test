@@ -7,7 +7,7 @@
 }
 
 .confirmed {
-    background-color: #a8dadc;
+    background-color: #2a9d8f;
 }
 
 .skipped {
@@ -51,8 +51,9 @@
 }
 
 .name:hover {
-    font-size: 2.2em;
+    font-size: 1.8em;
     cursor: pointer;
+    transition: 0.1s;
 }
 
 

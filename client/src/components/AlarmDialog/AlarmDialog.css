@@ -3,6 +3,7 @@
     background: #f1faee;
     min-width: 40vw;
     min-height: 20vw;
+    max-width: 20vw;
     top: 10vw;
     color: #f1faee;
     z-index: 2;
@@ -11,3 +12,9 @@
 .card-header {  
     background-color: #457b9d;
 }
+
+@media only screen and (max-width: 750px) {
+    .card {
+        max-width: 80vw;
+    }
+  }

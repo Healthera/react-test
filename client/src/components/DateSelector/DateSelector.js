@@ -1,19 +1,18 @@
-import React, { Component } from 'react'
+import React, {useState} from 'react'
 
-const DateSelector = ({selectDate}) => {
-    let value = ''
-
+const DateSelector = ({selectDate, date}) => {
+    
     const onChange = (e) => {
-        selectDate(e.target.value)
-        value = e.target.value
+        selectDate(e.target.value);
     }
 
     return (
         <div className="d-flex justify-content-center">
-            <input className="form-control" type="date" onChange={onChange}></input>
+            <input className="form-control" type="date" onChange={onChange} value={date}></input>
         </div>
     )
     
 }
 
 export default DateSelector
+

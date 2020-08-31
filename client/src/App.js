@@ -56,17 +56,16 @@ class App extends Component {
 
   render() {
     const alarms = this.state.alarms[this.state.date];
-
+    
     if (alarms) {
+
       return (
         <div className="App ">      
-
-            
           <div className="container d-flex justify-content-center flex-wrap">
             <div className="d-flex flex-column align-items-center justify-content-between">
               <img className="logo" src={logo}></img>
               <div className="date-selector" > 
-                <DateSelector selectDate={this.selectDate}/>
+                <DateSelector date={this.state.date} selectDate={this.selectDate}/>
               </div>
               
             </div>
@@ -87,12 +86,12 @@ class App extends Component {
           <div className="d-flex flex-column align-items-center justify-content-between">
               <img className="logo" src={logo}></img>
               <div className="date-selector" > 
-                <DateSelector selectDate={this.selectDate}/>
+                <DateSelector date={this.state.date} selectDate={this.selectDate}/>
               </div>
               <h1 className="text-center mt-4">No alarms found on this date.</h1>
             </div>       
         </div>
-      )
+      ) 
     }    
   }
 }
