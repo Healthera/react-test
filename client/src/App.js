@@ -4,6 +4,7 @@ import DateSelector from './components/DateSelector/DateSelector'
 import Alarm from './components/Alarm/Alarm'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css'
+import logo from './resources/logo.png'
 import AlarmDialog from './components/AlarmDialog/AlarmDialog';
 
 class App extends Component {
@@ -44,24 +45,36 @@ class App extends Component {
   confirmAlarm = (id) => {
     this.changeStatus('confirmed', id)
     this.toggleDialog(id)
+    this.setState({dialogStatus: false})
   }
 
   skipAlarm = (id) => {
     this.changeStatus('skipped', id)
     this.toggleDialog(id)
+    this.setState({dialogStatus: false})
   }
 
   render() {
     const alarms = this.state.alarms[this.state.date];
+
     if (alarms) {
       return (
         <div className="App ">      
-          <DateSelector selectDate={this.selectDate}/>
+
+            
           <div className="container d-flex justify-content-center flex-wrap">
+            <div className="d-flex flex-column align-items-center justify-content-between">
+              <img className="logo" src={logo}></img>
+              <div className="date-selector" > 
+                <DateSelector selectDate={this.selectDate}/>
+              </div>
+              
+            </div>
+            
             <AlarmDialog confirm={this.confirmAlarm} skip={this.skipAlarm} alarm={this.state.currentAlarm} toggleDialog={this.toggleDialog} dialogStatus={this.state.dialogStatus} />
 
             {
-              this.state.alarms[this.state.date].map(alarm => (
+              this.state.alarms[this.state.date].sort((prev, next) => prev.alarm_time === next.alarm_time ? 0 : next.alarm_time > prev.alarm_time ? -1 : 1).map(alarm => (
                 <Alarm key={alarm._id} id={alarm._id} alarmTime={alarm.alarm_time} name={alarm.name} description={alarm.description} status={alarm.status} changeStatus={this.changeStatus} toggleDialog={this.toggleDialog} confirm={this.confirmAlarm} skip={this.skipAlarm}/>
               ))
             }
@@ -71,8 +84,13 @@ class App extends Component {
     } else {
       return (
         <div className="App ">
-          <DateSelector selectDate={this.selectDate}/>
-          no alarms found on this date
+          <div className="d-flex flex-column align-items-center justify-content-between">
+              <img className="logo" src={logo}></img>
+              <div className="date-selector" > 
+                <DateSelector selectDate={this.selectDate}/>
+              </div>
+              <h1 className="text-center mt-4">No alarms found on this date.</h1>
+            </div>       
         </div>
       )
     }    

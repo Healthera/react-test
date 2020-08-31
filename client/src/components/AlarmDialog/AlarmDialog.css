@@ -1,11 +1,13 @@
-.box {
-    display: inline-block;
+.card {
     position: fixed;
-    top: 20vh;
-    min-width: 18rem;
-    max-width: 30vw;
+    background: #f1faee;
+    min-width: 40vw;
+    min-height: 20vw;
+    top: 10vw;
+    color: #f1faee;
+    z-index: 2;
 }
 
-.card-text {
-    height: 25vh;
+.card-header {  
+    background-color: #457b9d;
 }

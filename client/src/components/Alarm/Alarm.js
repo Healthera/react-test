@@ -4,17 +4,15 @@ import './Alarm.css'
 const Alarm = ({name, description, status, changeStatus, id, alarmTime, toggleDialog, confirm, skip}) => {
 
     return (
-            <div className={status + " cards mb-3"} >
-                <div className="card-header" onClick={() => {toggleDialog(id)}}>{alarmTime}
-                    <div className="card-body text-dark">
-                    <h5 className="card-title">{name}</h5>
+            <div className={"box " + status}>
+                <div className="content d-flex justify-content-between align-items-center">
+                    <h4>{alarmTime}</h4>
+                    <h4 className="name" onClick={status !== 'confirmed' && status !== 'skipped' ? () => toggleDialog(id) : null}>{name}</h4>
+                    <div className="buttons d-flex flex-column">
+                        <button className="btn btn-primary btn-sm" onClick={status !== 'confirmed' && status !== 'skipped' ? () => confirm(id) : null}>Confirm</button>
+                        <button className="btn btn-primary btn-sm" onClick={status !== 'confirmed' && status !== 'skipped' ? () => skip(id) : null}>Skip</button>
                     </div>
-                    
-                </div>
-                <div className="buttons d-flex justify-content-center">
-                        <button className="btn btn-primary" onClick={() => confirm(id)}>Confirm</button>
-                        <button className="btn btn-primary" onClick={() => skip(id)}>Skip</button>
-                    </div>
+                </div>          
             </div>
     )
 }

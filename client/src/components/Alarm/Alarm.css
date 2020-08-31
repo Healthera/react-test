@@ -1,34 +1,68 @@
+
+.box {
+    background-color: #457b9d;
+    color: #f1faee;
+    box-shadow: 8px 8px 5px grey;
+    z-index: 0;
+}
+
 .confirmed {
-    border: 1px solid blue;
-    max-width: 18rem;
+    background-color: #a8dadc;
 }
 
 .skipped {
-    border: 1px solid red;
-    max-width: 18rem;
+    opacity: 0.6;
 }
 
 .active {
-    border: 1px solid black;
-    max-width: 18rem;
+    border: none;
 }
 
 .buttons button {
-    margin-right: 0.8rem;
+    margin: 0.3rem;
+    background-color: #1d3557;
+    color: #f1faee;
+    border: none;
+    border-radius: 7px;
+}
+
+.cards {
+    width: 80vw;
 }
 
 .card-text {
     height: 12vh;
 }
 
-.cards {
-    margin-top: 8rem;
-    margin-right: 3rem;
-    margin-left: 3rem;
+.content {
+    width: 50%;
+    text-align: center;
 }
 
-.card-text {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.box {
+    width: 80vw;
+    border-radius: 15px;
+    margin: 0.5rem;
 }
+
+.content {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.name:hover {
+    font-size: 2.2em;
+    cursor: pointer;
+}
+
+
+@media only screen and (max-width: 450px) {
+    .box h4 {
+        font-size: 1rem;
+        margin: 0.5rem;
+    }
+
+    .box .buttons {
+        font-size: 1rem;
+    }
+  }
