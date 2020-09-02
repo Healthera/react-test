@@ -12,7 +12,12 @@ code {
     monospace;
 }
 
+select {
+  margin-left: 5px;
+}
+
 table {
   margin: auto;
   text-align: left;
+  margin-top: 20px;
 }
