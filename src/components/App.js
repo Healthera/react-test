@@ -24,32 +24,35 @@ function splitDate(time) {
   }
 };
 
-function AlarmItem({id, date, time, name, description, status, dateFilter}) {
-    return (
+function AlarmItem({id, date, time, name, description, status, dateFilter, confirmAlarm, skipAlarm}) {
+  return (
     <tr>
       <td>{name}</td>
       {dateFilter === "all" && <td>{date.fullDate}</td>}
       <td>{((time.hours < 10) ? '0' + time.hours : time.hours) + ':'
          + ((time.mins < 10) ? '0' + time.mins : time.mins)}</td>
+      <td className="button"><button onClick={() => confirmAlarm(id)}>Confirm</button></td>
+      <td className="button"><button onClick={() => skipAlarm(id)}>Skip</button></td>
     </tr>
   );
 };
 
 function Alarms() {
   const [alarms, setAlarm] = useState(
-    alarmsData.map((alarm) => {
-      return {
+    alarmsData.reduce((map, alarm) => {
+      map[alarm._id] = {
         id: alarm._id,
         time: splitTime(alarm.alarm_time),
         date: splitDate(alarm.alarm_time),
         name: alarm.name,
         description: alarm.description,
         status: alarm.status,
-      }
-    })
+      };
+      return map;
+    }, {})
   );
   const [dates, setDates] = useState(() => {
-    let sortedUniqueDates = alarms.map((alarm) => alarm.date);
+    let sortedUniqueDates = Object.values(alarms).map((alarm) => alarm.date);
     sortedUniqueDates = sortedUniqueDates.reduce((unique, o) => {
       if (!unique.some(obj => obj.fullDate === o.fullDate)) {
         unique.push(o);
@@ -70,6 +73,14 @@ function Alarms() {
 
   const [dateFilter, setDateFilter] = useState("all");
 
+  function confirmAlarm (id) {
+    console.log(id);
+  }
+
+  function skipAlarm (id) {
+    console.log(id);
+  }
+
   return (
     <>
       <div>
@@ -79,7 +90,9 @@ function Alarms() {
         }}>
           <option value="all">All</option>
           {dates.map((date) => 
-            <option key={date.fullDate} value={date.fullDate}>{date.fullDate}</option>
+            <option key={date.fullDate} value={date.fullDate}>
+              {date.fullDate}
+            </option>
           )}
         </select>
       </div>
@@ -92,7 +105,7 @@ function Alarms() {
           </tr>
         </thead>
         <tbody>
-          {alarms.filter(alarm => alarm.date.fullDate === dateFilter || dateFilter === "all")
+          {Object.values(alarms).filter(alarm => alarm.date.fullDate === dateFilter || dateFilter === "all")
             .sort((a, b) => {
               if (a.date.year < b.date.year) return -1;
               if (a.date.year > b.date.year) return 1;
@@ -117,6 +130,8 @@ function Alarms() {
                          description={alarm.description}
                          status={alarm.status}
                          dateFilter={dateFilter}
+                         confirmAlarm={confirmAlarm}
+                         skipAlarm={skipAlarm}
                          />
             )}
         </tbody>
