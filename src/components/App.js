@@ -24,21 +24,21 @@ function splitDate(time) {
   }
 };
 
-function AlarmItem({id, date, time, name, description, status, dateFilter, confirmAlarm, skipAlarm}) {
+function AlarmItem({id, date, time, name, description, status, dateFilter, updateAlarm}) {
   return (
-    <tr>
-      <td>{name}</td>
-      {dateFilter === "all" && <td>{date.fullDate}</td>}
-      <td>{((time.hours < 10) ? '0' + time.hours : time.hours) + ':'
-         + ((time.mins < 10) ? '0' + time.mins : time.mins)}</td>
-      <td className="button"><button onClick={() => confirmAlarm(id)}>Confirm</button></td>
-      <td className="button"><button onClick={() => skipAlarm(id)}>Skip</button></td>
-    </tr>
+    <div className={`alarmsRow ${status}`}>
+      <div className="alarmsCell">{name}</div>
+      {dateFilter === "all" && <div className="alarmsCell">{date.fullDate}</div>}
+      <div className="alarmsCell">{((time.hours < 10) ? '0' + time.hours : time.hours) + ':'
+         + ((time.mins < 10) ? '0' + time.mins : time.mins)}</div>
+      <div className="alarmsCell button">{status === "active" && <button onClick={() => updateAlarm(id, "confirm")}>Confirm</button>}</div>
+      <div className="alarmsCell button">{status === "active" && <button onClick={() => updateAlarm(id, "skip")}>Skip</button>}</div>
+    </div>
   );
 };
 
 function Alarms() {
-  const [alarms, setAlarm] = useState(
+  const [alarms, setAlarms] = useState(
     alarmsData.reduce((map, alarm) => {
       map[alarm._id] = {
         id: alarm._id,
@@ -73,12 +73,12 @@ function Alarms() {
 
   const [dateFilter, setDateFilter] = useState("all");
 
-  function confirmAlarm (id) {
-    console.log(id);
-  }
-
-  function skipAlarm (id) {
-    console.log(id);
+  function updateAlarm (id, status) {
+    setAlarms((prevAlarms) => {
+      let newAlarms = {...prevAlarms};
+      newAlarms[id].status = status;
+      return newAlarms;
+    });
   }
 
   return (
@@ -96,46 +96,43 @@ function Alarms() {
           )}
         </select>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Alarm Name</th>
-            {dateFilter === "all" && <th>Date</th>}
-            <th>Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.values(alarms).filter(alarm => alarm.date.fullDate === dateFilter || dateFilter === "all")
-            .sort((a, b) => {
-              if (a.date.year < b.date.year) return -1;
-              if (a.date.year > b.date.year) return 1;
-              if (a.date.month < b.date.month) return -1;
-              if (a.date.month > b.date.month) return 1;
-              if (a.date.date < b.date.date) return -1;
-              if (a.date.date > b.date.date) return 1;
-              if (a.time.hours < b.time.hours) return -1;
-              if (a.time.hours > b.time.hours) return 1;
-              if (a.time.mins < b.time.mins) return -1;
-              if (a.time.mins > b.time.mins) return 1;
-              if (a.time.secs < b.time.secs) return -1;
-              if (a.time.secs > b.time.secs) return 1;
-              return 0;
-            })
-            .map((alarm) =>
-              <AlarmItem key={alarm.id}
-                         id={alarm.id}
-                         date={alarm.date}
-                         time={alarm.time}
-                         name={alarm.name}
-                         description={alarm.description}
-                         status={alarm.status}
-                         dateFilter={dateFilter}
-                         confirmAlarm={confirmAlarm}
-                         skipAlarm={skipAlarm}
-                         />
-            )}
-        </tbody>
-      </table>
+      <section className="alarms">
+        <header className="alarmsHeader">
+          <div className="alarmsCell">Alarm Name</div>
+          {dateFilter === "all" && <div className="alarmsCell">Date</div>}
+          <div className="alarmsCell">Time</div>
+          <div className="alarmsCell" />
+          <div className="alarmsCell" />
+        </header>
+        {Object.values(alarms).filter(alarm => alarm.date.fullDate === dateFilter || dateFilter === "all")
+          .sort((a, b) => {
+            if (a.date.year < b.date.year) return -1;
+            if (a.date.year > b.date.year) return 1;
+            if (a.date.month < b.date.month) return -1;
+            if (a.date.month > b.date.month) return 1;
+            if (a.date.date < b.date.date) return -1;
+            if (a.date.date > b.date.date) return 1;
+            if (a.time.hours < b.time.hours) return -1;
+            if (a.time.hours > b.time.hours) return 1;
+            if (a.time.mins < b.time.mins) return -1;
+            if (a.time.mins > b.time.mins) return 1;
+            if (a.time.secs < b.time.secs) return -1;
+            if (a.time.secs > b.time.secs) return 1;
+            return 0;
+          })
+          .map((alarm) =>
+            <AlarmItem key={alarm.id}
+                        id={alarm.id}
+                        date={alarm.date}
+                        time={alarm.time}
+                        name={alarm.name}
+                        description={alarm.description}
+                        status={alarm.status}
+                        dateFilter={dateFilter}
+                        updateAlarm={updateAlarm}
+                        />
+          )}
+      </section>
     </>
   );
 };

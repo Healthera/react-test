@@ -16,17 +16,41 @@ select {
   margin-left: 5px;
 }
 
-table {
+.alarms {
   margin: auto;
   text-align: left;
   margin-top: 20px;
 }
 
-th, td {
-  padding: 5px 20px;
+.button {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
 }
 
-.button {
-  padding-left: 5px;
-  padding-right: 5px;
+.alarms {
+  display: table;
+}
+
+.alarmsHeader {
+  display: table-row;
+  font-weight: bold;
+  background-color: #2f9d6d;
+  color: white;
+}
+
+.alarmsRow {
+  display: table-row;
+}
+
+.alarmsCell {
+  display: table-cell;
+  padding: 10px 20px;
+}
+
+.confirm {
+  background-color: #ABEBC6;
+}
+
+.skip {
+  background-color: #ABB2B9;
 }
