@@ -23,23 +23,32 @@ select {
 }
 
 .button {
-  padding-left: 5px !important;
-  padding-right: 5px !important;
+  padding-left: 8px !important;
+  padding-right: 8px !important;
 }
 
-.alarms {
+.alarmsTable {
   display: table;
-}
-
-.alarmsHeader {
-  display: table-row;
-  font-weight: bold;
-  background-color: #2f9d6d;
-  color: white;
+  margin: auto;
+  margin-top: 20px;
 }
 
 .alarmsRow {
   display: table-row;
+}
+
+.alarmsRow > div:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.alarmsRow > div:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+.alarmsHeader {
+  font-weight: bold;
+  background-color: #2f9d6d;
+  color: white;
 }
 
 .alarmsCell {
@@ -49,8 +58,73 @@ select {
 
 .confirm {
   background-color: #ABEBC6;
+  color: #1D8348;
 }
 
 .skip {
-  background-color: #ABB2B9;
+  background-color: #D5D8DC;
+  color: #707B7C;
+}
+
+button {
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.view {
+  background-color: #2f9d6d;
+  color: white;
+}
+
+.alarmDetails {
+  position: fixed;
+  top: 25%;
+  left: 30%;
+  height: auto;
+  width: 40%;
+  background-color: white;
+  border-radius: 8px;
+  border: 2px solid #2f9d6d;
+}
+
+.alarmDetails .alarmsTable {
+  margin-bottom: 15px;
+}
+
+.alarmDetails .alarmsCell {
+  text-align: left;
+}
+
+.alarmDetailsButtons {
+  text-align: center;
+}
+
+.alarmDetailsButtons button {
+  margin: 0 8px 20px 8px;
+}
+
+.alarmDetailsClose {
+  position: absolute;
+  left: calc(100% - 5vmin);
+  font-size: 5vmin;
+  cursor: pointer;
+}
+
+.modalLayer {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(234, 236, 238, 0.65);
+  cursor: initial;
+}
+
+.bold {
+  font-weight: 600;
 }
