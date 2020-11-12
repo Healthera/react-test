@@ -3,7 +3,13 @@
 Build a single page React app that allows you to view a series of alarms and their related information
 in a daily view that you can page through by day
 
-## Requirements
+## Instructions:
+1. Please fork the repository to your own Github account
+2. Develope the codes on your own branches
+3. Submit your PR from your repository with relevant information.
+4. Inform relevant team once you have done that.
+
+## Requirements:
 
 1. Daily alarms view that allows me to see what alarms are set for a given day(displayed from the provided alarms.json file)
 2. You must display the alarm name and time on this view for each alarm on that day
