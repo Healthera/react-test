@@ -1,60 +1,63 @@
-import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useEffect, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 
 import AlarmsCalendar from './components/AlarmsCalendar';
 import SelectedDayList from './components/SelectedDayList';
 
-import "./App.css";
-import "react-big-calendar/lib/css/react-big-calendar.css";
+import './App.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-import data from "./alarms.json";
-import { checkDateByDay, convertFromUnixToDate, transformAlarmsForDisplay } from './helpers';
+import data from './alarms.json';
+import { checkTimeInDate, transformAlarmsForDisplay } from './helpers';
 
 const useStyles = makeStyles({
-	root: {
-		backgroundColor: "#f1f1f1",
-		height: "200vh",
-	},
+  root: {
+    backgroundColor: '#f1f1f1',
+    height: '100vh',
+  },
 });
 
 function App() {
-	const classes = useStyles();
+  const classes = useStyles();
 
-	const [alarms, setAlarms] = useState(() => transformAlarmsForDisplay(data));
-	const [selectedDate, setSelectedDate] = useState(() => convertFromUnixToDate(data[0].alarm_time));
-	const [filteredData, setFilteredData] = useState([]);
+  const [alarms, setAlarms] = useState(() => transformAlarmsForDisplay(data));
+  const [selectedDate, setSelectedDate] = useState(() =>
+    Date().toLocaleString()
+  );
+  const [alarmsOfSelectedDate, setFilteredAlarms] = useState([]);
 
-	useEffect(() => {
-		const filtered = alarms.filter((item) => checkDateByDay(selectedDate, item.alarm_time));
-		setFilteredData(filtered);
-	}, [alarms, selectedDate, checkDateByDay]);
+  useEffect(() => {
+		const filteredAlarms = alarms.filter(item =>
+      checkTimeInDate(selectedDate, item.alarm_time)
+    );
+    filteredAlarms.sort((a, b) => {
+      return a.alarm_time - b.alarm_time;
+    });
 
-	const handleDateChange = ({start}) => {
-		setSelectedDate(start);
-	};
+    setFilteredAlarms(filteredAlarms);
+  }, [alarms, selectedDate]);
 
-	const handleChangeStatus = (_id, status) => {
-		const updatedAlarms = alarms.map(
-			(item) => item._id === _id
-				? { ...item, status }
-				: item,
-		);
-		setAlarms(updatedAlarms);
-	};
+  const handleDateChange = ({ start }) => {
+    setSelectedDate(start);
+  };
 
-	return (
-		<div className={classes.root}>
-			<AlarmsCalendar
-				alarms={alarms}
-				onSelectEvent={handleDateChange}
-			/>
-			<SelectedDayList
-				selectedDate={selectedDate}
-				onChangeStatus={handleChangeStatus}
-				items={filteredData}
-			/>
-		</div>
-	);
+  const handleChangeStatus = (_id, status) => {
+    const updatedAlarms = alarms.map(item =>
+      item._id === _id ? { ...item, status } : item
+    );
+    setAlarms(updatedAlarms);
+  };
+
+  return (
+    <div className={classes.root}>
+      <AlarmsCalendar alarms={alarms} onSelectEvent={handleDateChange} />
+      <SelectedDayList
+        selectedDate={selectedDate}
+        onChangeStatus={handleChangeStatus}
+        items={alarmsOfSelectedDate}
+      />
+    </div>
+  );
 }
 
 export default App;

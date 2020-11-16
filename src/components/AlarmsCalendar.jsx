@@ -3,19 +3,18 @@ import moment from 'moment';
 
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import { makeStyles } from '@material-ui/core/styles';
-import { convertFromUnixToDate } from '../helpers';
 
 const localizer = momentLocalizer(moment);
-
 const useStyles = makeStyles({
   calendar: {
     height: '70vh',
+    padding: '16px 8px',
   },
   active: {
     backgroundColor: 'transparent',
   },
   skipped: {
-    backgroundColor: 'rgb(150 150 150 / 53%)',
+    backgroundColor: 'grey',
   },
   confirmed: {
     backgroundColor: 'rgb(0 255 102 / 63%)',
@@ -27,15 +26,19 @@ const AlarmsCalendar = ({ alarms, onSelectEvent }) => {
   return (
     <Calendar
       localizer={localizer}
-      defaultDate={convertFromUnixToDate(alarms[0].alarm_time)}
       views={['month']}
       events={alarms}
       selectable
       onSelectSlot={onSelectEvent}
       onSelectEvent={onSelectEvent}
+      onNavigate={(newDate, view, action) => {
+        if (action === 'TODAY') {
+          onSelectEvent(newDate);
+        }
+      }}
       titleAccessor={item => {
         return (
-          <span
+          <div
             className={
               item.status === 'active'
                 ? classes.active
@@ -45,7 +48,7 @@ const AlarmsCalendar = ({ alarms, onSelectEvent }) => {
             }
           >
             {item.title}
-          </span>
+          </div>
         );
       }}
       className={classes.calendar}
